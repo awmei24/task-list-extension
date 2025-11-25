@@ -6,8 +6,7 @@ a tiny task list extension to help me keep my life on track
 
 - [ ] create github repo
 - [ ] create front end base
-- [ ] save tasks across chrome browsers
-- [ ] stylesheet
+- [ ] save tasks across chrome browsers (using google oauth?)
 
 ## ui / design
 
