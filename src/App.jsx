@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { GlobalStyle, theme } from "./styles";
 import styled from "styled-components";
 
 function App() {
   const [tasks, setTasks] = useState([])
   const [inputValue, setInputValue] = useState('')
+
+  useEffect(() => {
+    const saved = localStorage.getItem('tasks')
+    if (saved) {
+      setTasks(JSON.parse(saved))
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks]);
 
   const addTask = () => {
     if (!inputValue.trim()) return
@@ -21,6 +32,10 @@ function App() {
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     )
+  }
+
+  const clearTasks = () => {
+    setTasks([])
   }
 
   const handleKeyDown = (e) => {
@@ -55,6 +70,8 @@ function App() {
             </TaskItem>
           ))}
         </TaskBoard>
+
+        <ClearButton onClick={clearTasks}>Clear All</ClearButton>
       </AppContainer>
     </>
   )
@@ -106,8 +123,8 @@ const AddButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: ${theme.border}
-    background-color: ${theme.bg};
+    color: ${theme.border};
+    background-color: ${theme.shadow};
   }
 `
 
@@ -128,5 +145,16 @@ const TaskItem = styled.div`
 
   &:hover {
     background-color: #e4e4e4;
+  }
+`
+
+const ClearButton = styled(AddButton)`
+  width: 100%;
+  margin-top: 1rem;
+  background-color: #ffb8b0;
+
+  &:hover {
+    background-color: #e7978f;
+    color: white;
   }
 `
